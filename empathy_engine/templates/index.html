@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Empathy Engine</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; }
+    textarea { width: 100%; min-height: 180px; padding: 12px; font-size: 1rem; }
+    .card { background: #f7f7f7; padding: 1rem; border-radius: 12px; margin-top: 1rem; }
+    button { padding: 0.8rem 1.2rem; font-size: 1rem; cursor: pointer; }
+    .meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+    .pill { background: #fff; padding: 10px 12px; border-radius: 10px; border: 1px solid #ddd; }
+  </style>
+</head>
+<body>
+  <h1>The Empathy Engine</h1>
+  <p>Paste text, detect emotion, and generate expressive speech with modulation.</p>
+
+  <form method="post">
+    <textarea name="text" placeholder="Enter customer message or any text...">{{ text }}</textarea>
+    <p><button type="submit">Generate Audio</button></p>
+  </form>
+
+  {% if result %}
+  <div class="card">
+    <h2>Detected Emotion</h2>
+    <div class="meta">
+      <div class="pill"><strong>Label:</strong> {{ result.emotion }}</div>
+      <div class="pill"><strong>Confidence:</strong> {{ result.confidence }}</div>
+      <div class="pill"><strong>Polarity:</strong> {{ result.polarity }}</div>
+      <div class="pill"><strong>Rate:</strong> {{ result.voice.rate }}</div>
+      <div class="pill"><strong>Volume:</strong> {{ result.voice.volume }}</div>
+      <div class="pill"><strong>Pitch factor:</strong> {{ result.voice.pitch }}</div>
+    </div>
+    {% if audio_file %}
+      <h3>Playback</h3>
+      <audio controls src="{{ audio_file }}"></audio>
+    {% endif %}
+  </div>
+  {% endif %}
+</body>
+</html>

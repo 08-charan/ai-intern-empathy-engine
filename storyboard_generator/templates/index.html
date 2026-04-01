@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Pitch Visualizer</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 1100px; margin: 2rem auto; padding: 0 1rem; line-height: 1.6; }
+    textarea { width: 100%; min-height: 220px; padding: 12px; font-size: 1rem; }
+    select, button { padding: 0.7rem 1rem; font-size: 1rem; }
+    .storyboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-top: 1rem; }
+    .panel { border: 1px solid #ddd; border-radius: 12px; overflow: hidden; background: #fff; }
+    .panel img { width: 100%; display: block; }
+    .panel .caption { padding: 12px; }
+    .panel .prompt { padding: 0 12px 12px; color: #555; font-size: 0.92rem; }
+    .toolbar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .toolbar > * { margin-right: 0.2rem; }
+    .hint { color: #666; }
+  </style>
+</head>
+<body>
+  <h1>The Pitch Visualizer</h1>
+  <p class="hint">Paste a narrative, split it into scenes, enrich the prompts, and generate a visual storyboard.</p>
+
+  <form method="post">
+    <textarea name="text" placeholder="Enter a 3–5 sentence customer success story...">{{ text }}</textarea>
+    <div class="toolbar" style="margin-top: 12px;">
+      <label for="style"><strong>Style:</strong></label>
+      <select name="style" id="style">
+        <option value="cinematic" {% if style == 'cinematic' %}selected{% endif %}>Cinematic</option>
+        <option value="digital art" {% if style == 'digital art' %}selected{% endif %}>Digital Art</option>
+        <option value="photorealistic" {% if style == 'photorealistic' %}selected{% endif %}>Photorealistic</option>
+        <option value="minimal" {% if style == 'minimal' %}selected{% endif %}>Minimal</option>
+      </select>
+      <button type="submit">Generate Storyboard</button>
+    </div>
+  </form>
+
+  {% if storyboard %}
+  <div class="storyboard">
+    {% for panel in storyboard %}
+    <div class="panel">
+      <img src="{{ panel.image_url }}" alt="Storyboard panel">
+      <div class="caption"><strong>Scene {{ loop.index }}:</strong> {{ panel.caption }}</div>
+      <div class="prompt"><strong>Prompt:</strong> {{ panel.prompt }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</body>
+</html>
