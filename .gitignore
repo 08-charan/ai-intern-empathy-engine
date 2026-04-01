@@ -1,0 +1,7 @@
+venv311/
+**/**pycache**/
+*.pyc
+*.wav
+*.mp3
+.env
+.DS_Store
